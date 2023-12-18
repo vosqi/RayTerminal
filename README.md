@@ -1,4 +1,4 @@
-RayTerminal
+RayTerminal https://create.roblox.com/marketplace/asset/13638205006/RayTerminal%3Fkeyword=&pageNumber=&pagePosition=
 
 Surprisingly there was a lack of CLI plugins on Roblox that utilized a more text/efficient workflow of commands instead of individually clicking on buttons.
 I made this plugin as a teaser into what a workflow of using the CLI would feel like on Studio in relation to using the terminal on VsCode for other operations like Git, hosting, logging, etc.
