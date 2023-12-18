@@ -10,3 +10,5 @@ This was an unfinished project in terms of the lack of commands, however each co
 ![image](https://github.com/vxsqi/RayTerminal/assets/74667208/f33d565e-b6d0-46fd-a44f-c173e8b76fb7)
 
 ![image](https://github.com/vxsqi/RayTerminal/assets/74667208/bcbf0895-7efe-4666-af8e-9a81633bc449)
+
+![image](https://github.com/vxsqi/RayTerminal/assets/74667208/67df41be-4f93-4139-b0de-f56830c1bc0f)
