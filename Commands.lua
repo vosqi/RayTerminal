@@ -1,4 +1,5 @@
 local HttpService = game:GetService('HttpService')
+local InsertService = game:GetService('InsertService')
 
 return function(self)
     local Commands = setmetatable({},{__index = function(t,k)
@@ -102,6 +103,8 @@ return function(self)
                     newdir = Instance.new('Folder')
                     newdir.Name = v
                     newdir.Parent = dir
+					
+					self:log('Made folder '..newdir:GetFullName(),{Type = 'Success'})
                 end
 
                 dir = newdir
@@ -130,6 +133,8 @@ return function(self)
                     self:log(err, {Type = 'Error'})
                     return
                 end
+				
+				self:log('Copied '..inst.Name,{Type='Success'})
             end
         end)
     end
@@ -188,6 +193,8 @@ return function(self)
                     self:log(err, {Type = 'Error'})
                     return
                 end
+				
+				self:log('Copied '..inst.Name,{Type='Success'})
             end
         end)
 
@@ -283,6 +290,27 @@ return function(self)
             end
             self:log('')
         end)
+		
+		
+		AddCommand('insert','insert <asset_id>', 'Inserts a object of an asset-id under the current directory', function(args)
+			if args[1] == nil then
+				self:log('Asset-id required', {Type = 'Error'})
+				return
+			end
+			
+			local succ,res = pcall(function()
+				return InsertService:LoadAsset(args[1])
+			end)
+			
+			if not succ then
+				self:log(res, {Type = 'Error'})
+				return
+			end
+			
+			self:log('Inserted asset '..args[1], {Type = 'Success'})
+			
+			res.Parent = self.Directory
+		end)
 
 
         AddCommand('ls', 'ls <flags?>', 'List all instances in the current directory', function(args)
@@ -354,6 +382,8 @@ return function(self)
                 local newinst = Instance.new(type)
                 newinst.Name = v
                 newinst.Parent = self.Directory
+				
+				self:log('Made '..type..' '..v,{Type = 'Success'})
             end
         end)
 
@@ -380,12 +410,14 @@ return function(self)
                     local newdir = Instance.new('Folder')
                     newdir.Name = name
                     newdir.Parent = self.Directory
+					
+					self:log('Made folder '..name,{Type='Success'})
                 end
             end
         end)
 
 
-        AddCommand('mv', 'mv <inst> <newdir>', 'Moves an instance to a new directory', function(args)
+        AddCommand('mv', 'mv <inst> <newdir?>', 'Moves an instance to a new directory', function(args)
             local inst = self.Functions.GetInstance(args[1])
             local newDir = self.Functions.GetInstance(args[2])
 
@@ -403,7 +435,10 @@ return function(self)
                 inst.Parent = newDir
             end, function(err)
                 self:log(err, {Type = 'Warn'})
+				return
             end)
+			
+			self:log('Moved '..inst.Name..' to '..newDir.Name,{Type='Success'})
         end)
 
 
@@ -430,7 +465,10 @@ return function(self)
                     inst:Destroy()
                 end, function(err)
                     self:log(err, {Type = 'Warn'})
+					return
                 end)
+				
+				self:log('Removed '..inst.Name,{Type='Success'})
             end
         end)
 
@@ -443,12 +481,17 @@ return function(self)
                 return
             end
             
+			local dirname = dir.Name
+			
             pcall(function()
                 changeDirectory(self.Directory.Parent)
                 dir:Destroy()
             end, function(err)
                 self:log(err, {Type = 'Warn'})
+				return
             end)
+			
+			self:log('Removed '..dirname,{Type='Success'})
         end)
     end
 
